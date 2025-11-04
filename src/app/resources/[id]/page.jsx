@@ -1,39 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { supabase } from '@/src/lib/supabase';
 import { useParams } from 'next/navigation';
+import { useResource } from '@/src/hooks/useResources';
+import { Spinner } from '@/src/components/ui/spinner';
 
 export default function ResourcePage() {
-  const [resource, setResource] = useState(null);
   const { id } = useParams();
 
-  useEffect(() => {
-    const fetchResource = async () => {
-      const { data, error } = await supabase
-        .from('resources')
-        .select('*')
-        .eq('id', id);
-      if (error) {
-        console.error('Error fetching resource:', error);
-      } else {
-        setResource(data[0]);
-      }
-    };
-    fetchResource();
-  }, [id]);
+  const { data: resource, isLoading } = useResource(id);
 
   return (
     <div className='flex justify-center items-center'>
+      {isLoading && <Spinner />}
       <div>
         <iframe
           width='560'
           height='315'
           src={resource?.video_url}
           title={resource?.title}
-          frameborder='0'
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-          allowfullscreen
+          allowFullScreen
         ></iframe>
         <h1>{resource?.title}</h1>
         <p>{resource?.description}</p>

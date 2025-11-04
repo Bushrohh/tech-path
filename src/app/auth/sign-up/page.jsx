@@ -3,13 +3,10 @@
 import React, { useState } from 'react';
 import { Button } from '@/src/components/ui/button';
 import { Spinner } from '@/src/components/ui/spinner';
-import { supabase } from '@/src/lib/supabase';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import { useRegister } from '@/src/hooks/useAuth';
 
 export default function SignUpPage() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate, isPending } = useRegister();
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -18,30 +15,7 @@ export default function SignUpPage() {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-
-    setIsLoading(true);
-
-    try {
-      const { data: signUpData, error } = await supabase.auth.signUp({
-        ...data,
-        options: {
-          data: {
-            display_name: data.fullName,
-          },
-        },
-      });
-
-      if (error) {
-        toast.error(error.message);
-      } else {
-        toast.success('Account created successfully');
-        router.push('/auth/login');
-      }
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+    mutate(data);
   };
 
   const handleChange = (e) => {
@@ -83,9 +57,9 @@ export default function SignUpPage() {
             type='submit'
             className='w-full mt-5'
             size='xl'
-            disabled={isLoading}
+            disabled={isPending}
           >
-            {isLoading ? <Spinner /> : 'Sign Up'}
+            {isPending ? <Spinner /> : 'Sign Up'}
           </Button>
         </form>
 

@@ -1,48 +1,27 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-
-import { supabase } from '@/src/lib/supabase';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { useResources } from '@/src/hooks/useResources';
 
 export default function ResourcesPage() {
-  const [resources, setResources] = useState([]);
-  const [filtered, setFiltered] = useState([]);
+  const { data: resources, isLoading } = useResources();
   const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchResources = async () => {
-      try {
-        const { data, error } = await supabase.from('resources').select('*');
-
-        setResources(data);
-        setFiltered(data);
-      } catch (error) {
-        console.error('Error fetching resources:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchResources();
-  }, []);
-
-  useEffect(() => {
+  const filteredResources = useMemo(() => {
     if (search.trim() === '') {
-      setFiltered(resources);
-    } else {
-      const lower = search.toLowerCase();
-      const filteredList = resources.filter(
-        (res) =>
-          res.title.toLowerCase().includes(lower) ||
-          (res.description && res.description.toLowerCase().includes(lower))
-      );
-      setFiltered(filteredList);
+      return resources;
     }
+
+    const lower = search.toLowerCase();
+    return resources.filter(
+      (res) =>
+        res.title.toLowerCase().includes(lower) ||
+        (res.description && res.description.toLowerCase().includes(lower))
+    );
   }, [search, resources]);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className='flex justify-center items-center min-h-screen text-xl text-emerald-700 font-semibold'>
         Loading resources...
@@ -66,11 +45,11 @@ export default function ResourcesPage() {
         />
       </div>
 
-      {filtered.length === 0 ? (
-        <p className='text-center text-white text-lg'>No resources found.</p>
+      {filteredResources.length === 0 ? (
+        <p className='text-center text-lg'>No resources found.</p>
       ) : (
         <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-          {filtered.map((item) => (
+          {filteredResources.map((item) => (
             <div
               key={item.id}
               className='bg-white p-6 rounded-2xl shadow-md hover:scale-[1.02] transition'

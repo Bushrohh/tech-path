@@ -2,14 +2,11 @@
 
 import { Button } from '@/src/components/ui/button';
 import { Spinner } from '@/src/components/ui/spinner';
-import { supabase } from '@/src/lib/supabase';
-import { useRouter } from 'next/navigation';
+import { useLogin } from '@/src/hooks/useAuth';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate, isPending } = useLogin();
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -17,25 +14,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    setIsLoading(true);
-
-    try {
-      const { data: loginData, error } = await supabase.auth.signInWithPassword(
-        data
-      );
-
-      if (error) {
-        toast.error(error.message);
-      } else {
-        console.log(loginData);
-        router.push('/opt-path');
-      }
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+    mutate(data);
   };
 
   const handleChange = (e) => {
@@ -62,8 +41,8 @@ export default function LoginPage() {
           required
           onChange={handleChange}
         />
-        <Button type='submit' className='w-full' size='xl' disabled={isLoading}>
-          {isLoading ? <Spinner /> : 'Login'}
+        <Button type='submit' className='w-full' size='xl' disabled={isPending}>
+          {isPending ? <Spinner /> : 'Login'}
         </Button>
       </form>
       <p className='mt-4 text-gray-600'>

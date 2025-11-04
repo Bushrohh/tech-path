@@ -1,24 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/src/components/ui/button';
-import { supabase } from '@/src/lib/supabase';
 import Link from 'next/link';
+import { useQuiz } from '@/src/hooks/useQuiz';
+import { Spinner } from '@/src/components/ui/spinner';
 
 export default function QuizPage() {
-  const [questions, setQuestions] = useState([]);
-
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      const { data, error } = await supabase
-        .from('quizzes')
-        .select('*')
-        .order('order', { ascending: true });
-
-      setQuestions(data);
-    };
-    fetchQuestions();
-  }, []);
+  const { data: questions = [], isLoading } = useQuiz();
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
@@ -97,6 +86,8 @@ export default function QuizPage() {
       <h1 className='text-4xl font-extrabold text-teal-700 mb-6'>
         Find Your Tech Path
       </h1>
+
+      {isLoading && <Spinner />}
 
       {isCompleted ? (
         <div className='bg-white rounded-2xl shadow-lg p-8 w-full max-w-md'>
