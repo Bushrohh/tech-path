@@ -1,53 +1,78 @@
-'use client'
+'use client';
 
-import React from 'react'
-import { Button } from "@/src/components/ui/button";
-import { Spinner } from "@/src/components/ui/spinner";
-import useHandleLogin from "@/src/hooks/handleLogin.js";
+import React, { useState } from 'react';
+import { Button } from '@/src/components/ui/button';
+import { Spinner } from '@/src/components/ui/spinner';
+import { useRegister } from '@/src/hooks/useAuth';
 
 export default function SignUpPage() {
+  const { mutate, isPending } = useRegister();
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+    fullName: '',
+  });
 
-  const {isLoading, handleLogin} = useHandleLogin();
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    mutate(data);
+  };
 
-  return ( 
-    <div className="flex h-screen">
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
 
-      <div className="w-full  flex flex-col justify-center items-center p-8 bg-gray-50">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800">Create an Account</h2>
-        <form className="w-full max-w-sm space-y-4">
+  return (
+    <div className='flex h-screen'>
+      <div className='w-full  flex flex-col justify-center items-center p-8 bg-gray-50'>
+        <h2 className='text-3xl font-bold mb-6 text-gray-800'>
+          Create an Account
+        </h2>
+        <form className='w-full max-w-sm space-y-4' onSubmit={handleSignup}>
           <input
-            type="text"
-            placeholder="Full Name"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
-            reuired
+            name='fullName'
+            type='text'
+            placeholder='Full Name'
+            className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none'
+            required
+            onChange={handleChange}
           />
           <input
-            type="email"
-            placeholder="Email"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
+            name='email'
+            type='email'
+            placeholder='Email'
+            className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none'
+            required
+            onChange={handleChange}
+          />
+          <input
+            name='password'
+            type='password'
+            placeholder='Password'
+            className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none'
+            onChange={handleChange}
             required
           />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
-            required
-          />
-          
+          <Button
+            type='submit'
+            className='w-full mt-5'
+            size='xl'
+            disabled={isPending}
+          >
+            {isPending ? <Spinner /> : 'Sign Up'}
+          </Button>
         </form>
-        
-        <Button className='w-full mt-5' size='xl'
-        onClick={(e) => handleLogin(e, "/opt-path")}>
-          {isLoading ? <Spinner /> : 'Sign Up'}
-        </Button>
 
-        <p className="mt-4 text-gray-600">
-          Already have an account?{" "}
-          <a href="/auth/login" className="text-teal-600 font-semibold hover:underline">
+        <p className='mt-4 text-gray-600'>
+          Already have an account?{' '}
+          <a
+            href='/auth/login'
+            className='text-teal-600 font-semibold hover:underline'
+          >
             Log In
           </a>
         </p>
       </div>
- </div>
+    </div>
   );
 }
