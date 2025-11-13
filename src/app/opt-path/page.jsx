@@ -26,7 +26,7 @@ export default function OptPathPage() {
             Find out which tech path is perfect for you.
           </p>
         </div>
-        <div onClick={(slug) => router.push(`tracks/ ${slug}`)}
+        <div onClick={(e) => router.push('/tracks')}
           className='bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition cursor-pointer text-center'
         >
           <h2 className='text-2xl font-semibold text-teal-700 mb-2'>

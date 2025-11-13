@@ -103,7 +103,7 @@ export default function Header() {
             Quiz
           </Link>
           <Link
-            href="/resources"
+            href="/library-page"
             onClick={() => setMenuOpen(false)}
             className="text-gray-700 hover:text-emerald-600"
           >
