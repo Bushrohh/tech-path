@@ -5,6 +5,7 @@ import { Button } from '@/src/components/ui/button';
 import { Spinner } from '@/src/components/ui/spinner';
 import { useRegister } from '@/src/hooks/useAuth';
 
+
 export default function SignUpPage() {
   const { mutate, isPending } = useRegister();
   const [data, setData] = useState({
@@ -25,7 +26,7 @@ export default function SignUpPage() {
   return (
     <div className='flex h-screen'>
       <div className='w-full  flex flex-col justify-center items-center p-8 bg-gray-50'>
-        <h2 className='text-3xl font-bold mb-6 text-gray-800'>
+        <h2 className='text-3xl font-bold mb-6 text-teal-700'>
           Create an Account
         </h2>
         <form className='w-full max-w-sm space-y-4' onSubmit={handleSignup}>
@@ -63,11 +64,11 @@ export default function SignUpPage() {
           </Button>
         </form>
 
-        <p className='mt-4 text-gray-600'>
+        <p className='mt-4 text-gray-600 flex items-center justify-center'>
           Already have an account?{' '}
           <a
             href='/auth/login'
-            className='text-teal-600 font-semibold hover:underline'
+            className='text-teal-700 font-semibold hover:underline'
           >
             Log In
           </a>

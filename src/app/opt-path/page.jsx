@@ -1,12 +1,12 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter,  } from 'next/navigation';
 
 export default function OptPathPage() {
   const router = useRouter();
 
   return (
-    <div className='min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-green-100 to-teal-100 p-6'>
+    <div className='min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-green-100 to-teal-100 p-6 pt-20'>
       <h1 className='text-4xl font-bold text-teal-700 mb-6'>
         Choose Your Next Step
       </h1>
@@ -14,9 +14,9 @@ export default function OptPathPage() {
         Pick one below to continue your tech journey.
       </p>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl'>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-3xl'>
         <div
-          onClick={() => router.push('/take-quiz')}
+          onClick={(e) => router.push('/take-quiz')}
           className='bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition cursor-pointer text-center'
         >
           <h2 className='text-2xl font-semibold text-teal-700 mb-2'>
@@ -26,9 +26,18 @@ export default function OptPathPage() {
             Find out which tech path is perfect for you.
           </p>
         </div>
-
-        <div
-          onClick={() => router.push('/resources')}
+        <div onClick={(slug) => router.push(`tracks/ ${slug}`)}
+          className='bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition cursor-pointer text-center'
+        >
+          <h2 className='text-2xl font-semibold text-teal-700 mb-2'>
+            Start a Course
+          </h2>
+          <p className='text-gray-600'>
+            Curated modules that fit your focus.
+          </p>
+        </div>
+                <div
+          onClick={(e) => router.push('/library-page')}
           className='bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition cursor-pointer text-center'
         >
           <h2 className='text-2xl font-semibold text-teal-700 mb-2'>

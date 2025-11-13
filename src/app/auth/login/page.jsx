@@ -23,7 +23,7 @@ export default function LoginPage() {
 
   return (
     <div className='w-full max-w-sm space-y-4'>
-      <h2 className='text-3xl font-bold mb-6 text-gray-800'>Welcome Back</h2>
+      <h2 className='text-3xl font-bold mb-6 text-teal-700'>Welcome Back</h2>
       <form onSubmit={handleLogin} className='space-y-4'>
         <input
           name='email'
@@ -41,15 +41,16 @@ export default function LoginPage() {
           required
           onChange={handleChange}
         />
-        <Button type='submit' className='w-full' size='xl' disabled={isPending}>
+        <Button type='submit' className='w-full ' size='xl' disabled={isPending}
+        >
           {isPending ? <Spinner /> : 'Login'}
         </Button>
       </form>
-      <p className='mt-4 text-gray-600'>
-        Don’t have an account?{' '}
+      <p className='mt-4 text-gray-600 flex items-center justify-center'>
+        Don’t have an account?{" "}
         <a
           href='/auth/sign-up'
-          className='text-teal-600 font-semibold hover:underline'
+          className='text-teal-700 font-semibold hover:underline '
         >
           Sign Up
         </a>

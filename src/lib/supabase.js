@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_PROJECT_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_PUBLISHABLE_KEY;
-export const SUPABASE_USER_KEY = `sb-${process.env.NEXT_PUBLIC_PROJECT_ID}-auth-token`;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+export const SUPABASE_USER_KEY = `sb-${process.env.NEXT_PUBLIC_SUPABASE_URL}-auth-token`;
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 

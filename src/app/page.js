@@ -26,7 +26,7 @@ export default function Home() {
       <div className="w-full max-w-xs mb-8">
         <Button
           onClick={(e) => handleLogin(e, "/auth/login")}
-          className="w-full bg-white text-teal-700 font-semibold hover:bg-teal-700 hover:text-white transition"
+          className="w-full bg-teal-600 text-white font-semibold hover:bg-white hover:text-teal-700 transition"
           size="lg"
         >
           {isLoading ? <Spinner /> : "Login"}
